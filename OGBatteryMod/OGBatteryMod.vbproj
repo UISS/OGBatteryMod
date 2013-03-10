@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Animate.vb" />
     <Compile Include="CMD.vb" />
+    <Compile Include="Devices.vb" />
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
     </Compile>

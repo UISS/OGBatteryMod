@@ -9,6 +9,8 @@ Public Class Form1
     Dim Odex As Boolean = False
     Dim Img As Integer = 0
     Dim Rights As Integer = 0
+    Private SystemUI As String = "systemui"
+    Private Settings As String = "secsettings"
 
     Private Sub Form1_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
         Cmd.ExecuteCommand("adb kill-server")
@@ -91,7 +93,7 @@ Public Class Form1
             Dim Ver As String = JustAfter(Text, "ro.build.version.sdk=", Chr(10))
             Dim Brand As String = JustAfter(Text, "ro.product.brand=", Chr(10))
             Me.Ver = Ver
-            If Not Ver = 10 AndAlso Not Ver = 15 AndAlso Not Ver = 16 AndAlso MsgBox("Warning : This MOD for android 4.1.2 only continue anyway?", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkCancel) = MsgBoxResult.Cancel Then
+            If Not Ver >= 15 AndAlso MsgBox("Sorry : This MOD for android 4.* only", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly) = MsgBoxResult.Ok Then
                 LastStep(False, "", 3)
                 Exit Sub
             End If
@@ -99,6 +101,18 @@ Public Class Form1
                 LastStep(False, "", 3)
                 Exit Sub
             End If
+            Select Case Brand.ToLower
+                Case "samsung"
+                    SystemUI = Samsung.SystemUI.ToLower
+                    Settings = Samsung.Settings.ToLower
+                Case "motorola"
+                    SystemUI = Motorola.SystemUI.ToLower
+                    Settings = Motorola.Settings.ToLower
+                Case Else
+                    SystemUI = "systemui"
+                    Settings = "secsettings"
+            End Select
+
             Me.Invoke(Sub()
                           LblSteps.Text = String.Format("{0}{1}{2}{3}{4}", Brand.ToUpper, " " & JustAfter(Text, "ro.product.model=", Chr(10)), " Found", vbNewLine, "Press to continue")
                       End Sub)
@@ -117,14 +131,16 @@ Public Class Form1
         If Cmd.Result.Contains("/system/app") Then
             Cmd.Result = ""
             Cmd.ExecuteCommand("ls")
-            Dim SystemUI As String = InStr(Cmd.Result.ToLower, "systemui.apk")
-            Dim SystemUIOdex As String = InStr(Cmd.Result.ToLower, "systemui.odex")
-            Dim SecSettings As String = InStr(Cmd.Result.ToLower, "secsettings.apk")
-            Dim SecSettingsOdex As String = InStr(Cmd.Result.ToLower, "secsettings.odex")
+            Dim SystemUI As String = InStr(Cmd.Result.ToLower, Me.SystemUI & ".apk")
+            Dim SystemUIOdex As String = InStr(Cmd.Result.ToLower, Me.SystemUI & ".odex")
+            Dim Settings As String = InStr(Cmd.Result.ToLower, Me.Settings & ".apk")
+            Dim SettingsOdex As String = InStr(Cmd.Result.ToLower, Me.Settings & ".odex")
             If SystemUI > 0 Then SystemUI = Cmd.Result.Substring(SystemUI - 1, 12)
             If SystemUIOdex > 0 Then SystemUIOdex = Cmd.Result.Substring(SystemUIOdex - 1, 13)
-            If SecSettings > 0 Then SecSettings = Cmd.Result.Substring(SecSettings - 1, 15)
-            If SecSettingsOdex > 0 Then SecSettingsOdex = Cmd.Result.Substring(SecSettingsOdex - 1, 16)
+            If Settings > 0 Then Settings = Cmd.Result.Substring(Settings - 1, 15)
+            If SettingsOdex > 0 Then SettingsOdex = Cmd.Result.Substring(SettingsOdex - 1, 16)
+            Me.SystemUI = SystemUI
+            Me.Settings = Settings
             Cmd.ExecuteCommand("cd ..")
             Cmd.ExecuteCommand("cd framework")
             Cmd.ExecuteCommand("pwd")
@@ -159,23 +175,23 @@ Public Class Form1
                 Else
                     DownloadFrameworkFiles("")
                 End If
-                ChangeStep("Downloading necessary files" & vbNewLine & "SystemUI.apk")
-                Cmd.ExecuteCommand("adb pull /system/app/" & SystemUI & " systemui.apk")
-                ChangeStep("Downloading necessary files" & vbNewLine & "SystemUI.odex")
-                Cmd.ExecuteCommand("adb pull /system/app/" & SystemUIOdex & " systemui.odex")
-                ChangeStep("Downloading necessary files" & vbNewLine & "SecSettings.apk")
-                Cmd.ExecuteCommand("adb pull /system/app/" & SecSettings & " secsettings.apk")
-                ChangeStep("Downloading necessary files" & vbNewLine & "SecSettings.odex")
-                Cmd.ExecuteCommand("adb pull /system/app/" & SecSettingsOdex & " secsettings.odex")
-                If My.Computer.FileSystem.FileExists("tools\systemui.apk") AndAlso My.Computer.FileSystem.FileExists("tools\systemui.odex") AndAlso _
-                    My.Computer.FileSystem.FileExists("tools\secsettings.apk") AndAlso My.Computer.FileSystem.FileExists("tools\secsettings.odex") Then
+                ChangeStep("Downloading necessary files" & vbNewLine & SystemUI)
+                Cmd.ExecuteCommand("adb pull /system/app/" & SystemUI & " " & SystemUI)
+                ChangeStep("Downloading necessary files" & vbNewLine & SystemUIOdex)
+                Cmd.ExecuteCommand("adb pull /system/app/" & SystemUIOdex & " " & SystemUIOdex)
+                ChangeStep("Downloading necessary files" & vbNewLine & Settings)
+                Cmd.ExecuteCommand("adb pull /system/app/" & Settings & " " & Settings)
+                ChangeStep("Downloading necessary files" & vbNewLine & SettingsOdex)
+                Cmd.ExecuteCommand("adb pull /system/app/" & SettingsOdex & " " & SettingsOdex)
+                If My.Computer.FileSystem.FileExists("tools\" & SystemUI) AndAlso My.Computer.FileSystem.FileExists("tools\" & SystemUIOdex) AndAlso _
+                    My.Computer.FileSystem.FileExists("tools\" & Settings) AndAlso My.Computer.FileSystem.FileExists("tools\" & SettingsOdex) Then
                     ChangeStep("Downloading necessary files" & vbNewLine & "Deodexing")
                     DeodexSystemUI()
                     My.Computer.FileSystem.DeleteFile("tools\classes.dex")
-                    My.Computer.FileSystem.DeleteFile("tools\systemui.odex")
+                    My.Computer.FileSystem.DeleteFile("tools\" & SystemUIOdex)
                     DeodexSecSettings()
                     My.Computer.FileSystem.DeleteFile("tools\classes.dex")
-                    My.Computer.FileSystem.DeleteFile("tools\secsettings.odex")
+                    My.Computer.FileSystem.DeleteFile("tools\" & SettingsOdex)
                     My.Computer.FileSystem.DeleteDirectory("tools\framework", FileIO.DeleteDirectoryOption.DeleteAllContents)
                     My.Computer.FileSystem.DeleteDirectory("tools\code", FileIO.DeleteDirectoryOption.DeleteAllContents)
                     Me.Invoke(Sub()
@@ -187,16 +203,16 @@ Public Class Form1
                               End Sub)
                     GoTo E
                 Else
-                    MsgBox("Failed to download 'SystemUI' & 'SecSettings'")
+                    MsgBox("Failed to download '" & Me.SystemUI & "' & '" & Me.Settings & "'")
                     LastStep(True)
                 End If
             Else
                 Cmd.Result = ""
-                ChangeStep("Downloading necessary files" & vbNewLine & "SystemUI.apk")
-                Cmd.ExecuteCommand("adb pull /system/app/" & SystemUI & " systemui.apk")
-                ChangeStep("Downloading necessary files" & vbNewLine & "SecSettings.apk")
-                Cmd.ExecuteCommand("adb pull /system/app/" & SecSettings & " secsettings.apk")
-                If My.Computer.FileSystem.FileExists("tools\systemui.apk") Then
+                ChangeStep("Downloading necessary files" & vbNewLine & SystemUI)
+                Cmd.ExecuteCommand("adb pull /system/app/" & SystemUI & " " & SystemUI)
+                ChangeStep("Downloading necessary files" & vbNewLine & Settings)
+                Cmd.ExecuteCommand("adb pull /system/app/" & Settings & " " & Settings)
+                If My.Computer.FileSystem.FileExists("tools\" & SystemUI) AndAlso My.Computer.FileSystem.FileExists("tools\" & Settings) Then
                     Me.Invoke(Sub()
                                   LblTitle.Text = "Step 4"
                                   LblSteps.Text = "Adding OGBatteryMod"
@@ -206,7 +222,7 @@ Public Class Form1
                               End Sub)
                     GoTo E
                 Else
-                    MsgBox("Failed to download 'SystemUI.apk' & 'SecSettings.apk'")
+                    MsgBox("Failed to download '" & Me.SystemUI & "' & '" & Me.Settings & "'")
                     LastStep(True)
                 End If
             End If
@@ -223,31 +239,35 @@ E:
         Next
         If My.Computer.FileSystem.DirectoryExists("Tools\SystemUI") Then My.Computer.FileSystem.DeleteDirectory("Tools\SystemUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
         If My.Computer.FileSystem.DirectoryExists("Tools\SecSettings") Then My.Computer.FileSystem.DeleteDirectory("Tools\SecSettings", FileIO.DeleteDirectoryOption.DeleteAllContents)
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Decompiling SystemUI")
-        Decompile("SystemUI.apk")
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Decompiling SecSettings")
-        Decompile("SecSettings.apk")
+
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Decompiling " & SystemUI)
+        Decompile(SystemUI)
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Decompiling " & Settings)
+        Decompile(Settings)
         ChangeStep("Adding OGBatteryMod" & vbNewLine & "Installing OGBatteryMod")
 
-        If My.Computer.FileSystem.FileExists("Tools\SystemUI\apktool.yml") Then
-            Dim Files = My.Computer.FileSystem.GetFiles("Tools\SystemUI\", FileIO.SearchOption.SearchAllSubDirectories, New String() {"*.smali", "*.xml"})
+        If My.Computer.FileSystem.FileExists("Tools\" & SystemUI.ToLower.Replace(".apk", "") & "\apktool.yml") Then
+            Dim Files = My.Computer.FileSystem.GetFiles("Tools\" & SystemUI.ToLower.Replace(".apk", "") & "\", FileIO.SearchOption.SearchAllSubDirectories, New String() {"*.smali", "*.xml"})
             For Each File In Files
                 Dim Text As String = My.Computer.FileSystem.ReadAllText(File)
                 Dim NewText As String = Text
+                'Android 4.*
                 NewText = Replace(NewText, "Lcom/android/systemui/statusbar/policy/BatteryController", "Lcom/ghareeb/BatteryMod/BatteryController")
+                'Android 2.*
+                'Coming Soon :)
                 If Not Text.Contains(".source ""BatteryController.java""") AndAlso Not Text.Equals(NewText) Then
                     My.Computer.FileSystem.WriteAllText(File, NewText, False, System.Text.Encoding.ASCII)
                 End If
             Next
         Else
-            MsgBox("Failed to decompiling 'SystemUI.apk'")
+            MsgBox("Failed to decompiling '" & SystemUI & "'")
             LastStep(True)
             Exit Sub
         End If
-        If My.Computer.FileSystem.FileExists("Tools\SecSettings\apktool.yml") Then
+        If My.Computer.FileSystem.FileExists("Tools\" & Settings.ToLower.Replace(".apk", "") & "\apktool.yml") Then
             Dim Text As String = ""
             Dim Lines As String()
-            Lines = IO.File.ReadAllLines("Tools\SecSettings\res\xml\display_settings.xml")
+            Lines = IO.File.ReadAllLines("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\xml\display_settings.xml")
             If (From Line As String In Lines Select Line Where Line.Contains("BatteryMod.BatteryList")).Count > 0 Then
                 Dim Int As Integer = Array.IndexOf(Lines, (From Line As String In Lines Select Line Where Line.Contains("BatteryMod.BatteryList"))(0))
                 Lines(Int) = My.Resources.SettingsXML
@@ -255,15 +275,21 @@ E:
                 Dim Int As Integer = Array.IndexOf(Lines, (From Line As String In Lines Select Line Where Line.Contains("touch_key_light_values"))(0))
                 Dim List As New List(Of String)
                 List.AddRange(Lines)
-                List.Insert(Int + 1, My.Resources.SettingsXML)
-                Lines = List.ToArray
+                If Int = -1 Then
+                    Int = Array.IndexOf(Lines, (From Line As String In Lines Select Line Where Line.Contains("</PreferenceScreen>"))(0))
+                    List.Insert(Int + 1, My.Resources.SettingsXML)
+                    Lines = List.ToArray
+                Else
+                    List.Insert(Int + 1, My.Resources.SettingsXML)
+                    Lines = List.ToArray
+                End If
             End If
-            My.Computer.FileSystem.DeleteFile("Tools\SecSettings\res\xml\display_settings.xml")
-            IO.File.WriteAllLines("Tools\SecSettings\res\xml\display_settings.xml", Lines)
-            Lines = IO.File.ReadAllLines("Tools\SecSettings\res\values\strings.xml")
+            My.Computer.FileSystem.DeleteFile("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\xml\display_settings.xml")
+            IO.File.WriteAllLines("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\xml\display_settings.xml", Lines)
+            Lines = IO.File.ReadAllLines("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\strings.xml")
             If (From Line As String In Lines Select Line Where Line.Contains("battry_style_title")).Count > 0 Then
                 Dim Int As Integer = Array.IndexOf(Lines, (From Line As String In Lines Select Line Where Line.Contains("battry_style_title"))(0))
-                Lines(Int) = "<string name=""battry_style_title"">Battery Style v1.0</string>"
+                Lines(Int) = "<string name=""battry_style_title"">Battery Style</string>"
                 Int = Array.IndexOf(Lines, (From Line As String In Lines Select Line Where Line.Contains("battry_style_summary"))(0))
                 Lines(Int) = "<string name=""battry_style_summary"">By Osama Ghareeb</string>"
             Else
@@ -271,82 +297,82 @@ E:
                 Dim List As New List(Of String)
                 List.AddRange(Lines)
                 List.Insert(Int, "  <string name=""battry_style_summary"">By Osama Ghareeb</string>")
-                List.Insert(Int, "  <string name=""battry_style_title"">Battery Style v1.0</string>")
+                List.Insert(Int, "  <string name=""battry_style_title"">Battery Style</string>")
                 Lines = List.ToArray
             End If
-            My.Computer.FileSystem.DeleteFile("Tools\SecSettings\res\values\strings.xml")
-            IO.File.WriteAllLines("Tools\SecSettings\res\values\strings.xml", Lines)
-            Text = IO.File.ReadAllText("Tools\SecSettings\res\values\arrays.xml")
+            My.Computer.FileSystem.DeleteFile("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\strings.xml")
+            IO.File.WriteAllLines("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\strings.xml", Lines)
+            Text = IO.File.ReadAllText("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\arrays.xml")
             If Text.Contains("BatteryStyles") Then
                 Dim Val As String = "<string-array name=""BatteryStyles" & JustAfter(Text, "<string-array name=""BatteryStyle", "</string-array>") & "</string-array>"
                 Text = Text.Replace(Val, My.Resources.Styles)
             Else
                 Text = Text.Replace("</resources>", My.Resources.Styles & vbNewLine & "</resources>")
             End If
-            My.Computer.FileSystem.DeleteFile("Tools\SecSettings\res\values\arrays.xml")
-            IO.File.WriteAllText("Tools\SecSettings\res\values\arrays.xml", Text)
-            Text = IO.File.ReadAllText("Tools\SecSettings\res\values\ids.xml")
+            My.Computer.FileSystem.DeleteFile("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\arrays.xml")
+            IO.File.WriteAllText("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\arrays.xml", Text)
+            Text = IO.File.ReadAllText("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\ids.xml")
             If Not Text.Contains("OG_Battery") Then
                 Text = Text.Replace("</resources>", My.Resources.IDs & vbNewLine & "</resources>")
             End If
-            My.Computer.FileSystem.DeleteFile("Tools\SecSettings\res\values\ids.xml")
-            IO.File.WriteAllText("Tools\SecSettings\res\values\ids.xml", Text)
+            My.Computer.FileSystem.DeleteFile("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\ids.xml")
+            IO.File.WriteAllText("Tools\" & Settings.ToLower.Replace(".apk", "") & "\res\values\ids.xml", Text)
         Else
-            MsgBox("Failed to decompiling 'SecSettings.apk'")
+            MsgBox("Failed to decompiling '" & Settings & "'")
             LastStep(True)
             Exit Sub
         End If
         Cmd.Result = ""
         My.Computer.FileSystem.WriteAllBytes("Tools\Battery1.zip", My.Resources.Battery1, False)
         My.Computer.FileSystem.WriteAllBytes("Tools\Battery2.zip", My.Resources.Battery2, False)
-        If My.Computer.FileSystem.DirectoryExists("Tools\SystemUI\smali\com\ghareeb\") Then My.Computer.FileSystem.DeleteDirectory("Tools\SystemUI\smali\com\ghareeb\", FileIO.DeleteDirectoryOption.DeleteAllContents)
-        If My.Computer.FileSystem.DirectoryExists("Tools\SecSettings\smali\com\ghareeb\") Then My.Computer.FileSystem.DeleteDirectory("Tools\SecSettings\smali\com\ghareeb\", FileIO.DeleteDirectoryOption.DeleteAllContents)
-        Extract("SystemUI\smali\com\ghareeb\", "Battery1.zip")
-        Extract("SecSettings\", "Battery2.zip")
+        If My.Computer.FileSystem.DirectoryExists("Tools\" & SystemUI.ToLower.Replace(".apk", "") & "\smali\com\ghareeb\") Then My.Computer.FileSystem.DeleteDirectory("Tools\SystemUI\smali\com\ghareeb\", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        If My.Computer.FileSystem.DirectoryExists("Tools\" & Settings.ToLower.Replace(".apk", "") & "\smali\com\ghareeb\") Then My.Computer.FileSystem.DeleteDirectory("Tools\SecSettings\smali\com\ghareeb\", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        Extract(SystemUI.ToLower.Replace(".apk", "") & "\smali\com\ghareeb\", "Battery1.zip")
+        Extract(Settings.ToLower.Replace(".apk", "") & "\", "Battery2.zip")
         My.Computer.FileSystem.DeleteFile("Tools\Battery1.zip")
         My.Computer.FileSystem.DeleteFile("Tools\Battery2.zip")
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Compiling SystemUI")
-        Compile("SystemUI")
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Compiling SecSettings")
-        Compile("SecSettings")
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Signing SystemUI")
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Compiling " & SystemUI)
+        Compile(SystemUI.ToLower.Replace(".apk", ""))
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Compiling " & Settings)
+        Compile(Settings.ToLower.Replace(".apk", ""))
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Signing " & SystemUI)
         If My.Computer.FileSystem.DirectoryExists("Tools\META-INF") Then My.Computer.FileSystem.DeleteDirectory("Tools\META-INF", FileIO.DeleteDirectoryOption.DeleteAllContents)
         If My.Computer.FileSystem.FileExists("Tools\AndroidManifest.xml") Then My.Computer.FileSystem.DeleteFile("Tools\AndroidManifest.xml")
-        ExtractFile("META-INF", "systemui.apk", "META-INF")
-        ExtractFile("", "systemui.apk", "AndroidManifest.xml")
-        AddFile("SystemUI\dist\systemui.apk", "META-INF\CERT.RSA")
-        AddFile("SystemUI\dist\systemui.apk", "META-INF\CERT.SF")
-        AddFile("SystemUI\dist\systemui.apk", "META-INF\MANIFEST.MF")
-        AddFile("SystemUI\dist\systemui.apk", "AndroidManifest.xml")
+        ExtractFile("META-INF", SystemUI, "META-INF")
+        ExtractFile("", SystemUI, "AndroidManifest.xml")
+        AddFile(SystemUI.ToLower.Replace(".apk", "") & "\dist\" & SystemUI, "META-INF\CERT.RSA")
+        AddFile(SystemUI.ToLower.Replace(".apk", "") & "\dist\" & SystemUI, "META-INF\CERT.SF")
+        AddFile(SystemUI.ToLower.Replace(".apk", "") & "\dist\" & SystemUI, "META-INF\MANIFEST.MF")
+        AddFile(SystemUI.ToLower.Replace(".apk", "") & "\dist\" & SystemUI, "AndroidManifest.xml")
         If My.Computer.FileSystem.DirectoryExists("Tools\META-INF") Then My.Computer.FileSystem.DeleteDirectory("Tools\META-INF", FileIO.DeleteDirectoryOption.DeleteAllContents)
         If My.Computer.FileSystem.FileExists("Tools\AndroidManifest.xml") Then My.Computer.FileSystem.DeleteFile("Tools\AndroidManifest.xml")
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Signing SecSettings")
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "Signing " & Settings)
         Threading.Thread.Sleep(500)
         If My.Computer.FileSystem.DirectoryExists("Tools\META-INF") Then My.Computer.FileSystem.DeleteDirectory("Tools\META-INF", FileIO.DeleteDirectoryOption.DeleteAllContents)
         If My.Computer.FileSystem.FileExists("Tools\AndroidManifest.xml") Then My.Computer.FileSystem.DeleteFile("Tools\AndroidManifest.xml")
-        ExtractFile("META-INF", "SecSettings.apk", "META-INF")
-        ExtractFile("", "SecSettings.apk", "AndroidManifest.xml")
-        AddFile("SecSettings\dist\SecSettings.apk", "META-INF\CERT.RSA")
-        AddFile("SecSettings\dist\SecSettings.apk", "META-INF\CERT.SF")
-        AddFile("SecSettings\dist\SecSettings.apk", "META-INF\MANIFEST.MF")
-        AddFile("SecSettings\dist\SecSettings.apk", "AndroidManifest.xml")
+        ExtractFile("META-INF", Settings, "META-INF")
+        ExtractFile("", Settings, "AndroidManifest.xml")
+        AddFile(Settings.ToLower.Replace(".apk", "") & "\dist\" & Settings, "META-INF\CERT.RSA")
+        AddFile(Settings.ToLower.Replace(".apk", "") & "\dist\" & Settings, "META-INF\CERT.SF")
+        AddFile(Settings.ToLower.Replace(".apk", "") & "\dist\" & Settings, "META-INF\MANIFEST.MF")
+        AddFile(Settings.ToLower.Replace(".apk", "") & "\dist\" & Settings, "AndroidManifest.xml")
         If My.Computer.FileSystem.DirectoryExists("Tools\META-INF") Then My.Computer.FileSystem.DeleteDirectory("Tools\META-INF", FileIO.DeleteDirectoryOption.DeleteAllContents)
         If My.Computer.FileSystem.FileExists("Tools\AndroidManifest.xml") Then My.Computer.FileSystem.DeleteFile("Tools\AndroidManifest.xml")
         Cmd.Result = ""
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "ZipAligning SystemUI")
-        ZipAlign("SystemUI\dist\systemui.apk")
-        ChangeStep("Adding OGBatteryMod" & vbNewLine & "ZipAligning SecSettings")
-        ZipAlign("SecSettings\dist\SecSettings.apk")
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "ZipAligning " & SystemUI)
+        ZipAlign(SystemUI.ToLower.Replace(".apk", "") & "\dist\" & SystemUI)
+        ChangeStep("Adding OGBatteryMod" & vbNewLine & "ZipAligning " & Settings)
+        ZipAlign(Settings.ToLower.Replace(".apk", "") & "\dist\" & Settings)
 
         ChangeStep("Adding OGBatteryMod")
         If Cmd.Result.Contains("succesful") Then
-            My.Computer.FileSystem.MoveFile("Tools\SystemUI\dist\systemui.apk", "Tools\dist\SystemUI.apk", True)
-            My.Computer.FileSystem.MoveFile("Tools\SecSettings\dist\SecSettings.apk", "Tools\dist\SecSettings.apk", True)
+            My.Computer.FileSystem.MoveFile("Tools\" & SystemUI.ToLower.Replace(".apk", "") & "\dist\" & SystemUI, "Tools\dist\" & SystemUI, True)
+            My.Computer.FileSystem.MoveFile("Tools\" & Settings.ToLower.Replace(".apk", "") & "\dist\" & Settings, "Tools\dist\" & Settings, True)
         Else
             LastStep(True)
         End If
-        My.Computer.FileSystem.DeleteDirectory("Tools\SystemUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-        My.Computer.FileSystem.DeleteDirectory("Tools\SecSettings", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        My.Computer.FileSystem.DeleteDirectory("Tools\" & SystemUI.ToLower.Replace(".apk", ""), FileIO.DeleteDirectoryOption.DeleteAllContents)
+        My.Computer.FileSystem.DeleteDirectory("Tools\" & Settings.ToLower.Replace(".apk", ""), FileIO.DeleteDirectoryOption.DeleteAllContents)
         If Cmd.Result.Contains("succesful") Then
             Me.Invoke(Sub()
                           LblTitle.Text = "Step 5"
@@ -365,10 +391,10 @@ E:
         ChangeStep("Applying changes" & vbNewLine & "Copying Files to /sdcard/og")
         Cmd.ExecuteCommand("adb shell mkdir /sdcard/og/")
         Cmd.ExecuteCommand("adb shell mkdir /sdcard/og/backup")
-        Cmd.ExecuteCommand("adb push dist\SystemUI.apk /sdcard/og/SystemUI.apk")
-        Cmd.ExecuteCommand("adb push systemui.apk /sdcard/og/backup/SystemUI.apk")
-        Cmd.ExecuteCommand("adb push dist\SecSettings.apk /sdcard/og/SecSettings.apk")
-        Cmd.ExecuteCommand("adb push SecSettings.apk /sdcard/og/backup/SecSettings.apk")
+        Cmd.ExecuteCommand("adb push dist\" & SystemUI & " /sdcard/og/" & SystemUI)
+        Cmd.ExecuteCommand("adb push " & SystemUI & " /sdcard/og/backup/" & SystemUI)
+        Cmd.ExecuteCommand("adb push dist\" & Settings & " /sdcard/og/" & Settings)
+        Cmd.ExecuteCommand("adb push " & Settings & " /sdcard/og/backup/" & Settings)
         Cmd.ExecuteCommand("adb push dist\OGBatteryMod.apk /sdcard/og/OGBatteryMod.apk")
         Cmd.Result = ""
         Cmd.ExecuteCommand("adb shell")
@@ -376,7 +402,7 @@ E:
         Cmd.ExecuteCommand("cd og")
         Cmd.ExecuteCommand("ls")
         Cmd.ExecuteCommand("exit")
-        If Cmd.Result.Contains("SystemUI.apk") AndAlso Cmd.Result.Contains("SecSettings.apk") Then
+        If Cmd.Result.Contains(SystemUI) AndAlso Cmd.Result.Contains(Settings) Then
             ChangeStep("Applying changes" & vbNewLine & "Asking for ROOT access")
             AppActivate(Process.GetCurrentProcess.Id)
             Cmd.ExecuteCommand("adb shell")
@@ -389,13 +415,13 @@ E:
             ChangeStep("Applying changes" & vbNewLine & "Stoping && Restarting Device")
             Cmd.ExecuteCommand("stop")
             Cmd.ExecuteCommand("mount -o rw,remount /system/ /system/")
-            Cmd.ExecuteCommand("rm /system/app/SystemUI.apk")
-            Cmd.ExecuteCommand("rm /system/app/SecSettings.apk")
-            Cmd.ExecuteCommand("rm /system/app/SystemUI.odex")
-            Cmd.ExecuteCommand("rm /system/app/SecSettings.odex")
+            Cmd.ExecuteCommand("rm /system/app/" & SystemUI)
+            Cmd.ExecuteCommand("rm /system/app/" & Settings)
+            Cmd.ExecuteCommand("rm /system/app/" & SystemUI.Replace("apk", "odex"))
+            Cmd.ExecuteCommand("rm /system/app/" & Settings.Replace("apk", "odex"))
             Cmd.ExecuteCommand("rm /system/app/OGBatteryMod.apk")
-            Cmd.ExecuteCommand("cp /sdcard/og/SystemUI.apk /system/app/SystemUI.apk")
-            Cmd.ExecuteCommand("cp /sdcard/og/SecSettings.apk /system/app/SecSettings.apk")
+            Cmd.ExecuteCommand("cp /sdcard/og/" & SystemUI & " /system/app/" & SystemUI)
+            Cmd.ExecuteCommand("cp /sdcard/og/" & Settings & " /system/app/" & Settings)
             Cmd.ExecuteCommand("cp /sdcard/og/OGBatteryMod.apk /system/app/OGBatteryMod.apk")
             Cmd.ExecuteCommand("mount -o rw,remount /system/ /system")
             Cmd.ExecuteCommand("reboot")
