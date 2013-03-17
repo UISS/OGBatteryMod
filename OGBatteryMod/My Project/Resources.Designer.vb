@@ -81,6 +81,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized resource of type System.Byte[].
+        '''</summary>
+        Friend ReadOnly Property BatteryMod() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("BatteryMod", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to &lt;item type=&quot;id&quot; name=&quot;OG_Battery_LL1&quot;&gt;false&lt;/item&gt;
         '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_LL2&quot;&gt;false&lt;/item&gt;
         '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_Name&quot;&gt;false&lt;/item&gt;

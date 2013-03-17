@@ -124,6 +124,9 @@
   <data name="Battery2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Battery2.rar;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="BatteryMod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BatteryMod.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="IDs" xml:space="preserve">
     <value>&lt;item type="id" name="OG_Battery_LL1"&gt;false&lt;/item&gt;
     &lt;item type="id" name="OG_Battery_LL2"&gt;false&lt;/item&gt;

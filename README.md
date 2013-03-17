@@ -1,6 +1,7 @@
-OGBatteryMod
+<h>OGBatteryMod</h>
 ============
-
 Programmed by : Osama Ghareeb
 <br />
-http://forum.xda-developers.com/showthread.php?p=38905053
+Thread on XDA : <a href="http://forum.xda-developers.com/showthread.php?t=2181766">[Modding App][Android 4.*] OGBatteryMod</a> 
+
+
