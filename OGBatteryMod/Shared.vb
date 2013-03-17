@@ -58,4 +58,18 @@
         End If
         Return DirectCast(list.ToArray(GetType(String)), String())
     End Function
+
+    Public Function ReadFiles(ByVal str As String, ByVal Types As String()) As String()
+        Dim lst As New List(Of String)
+        str = str.Replace(" ", vbNewLine)
+        For Each Line In ReadLines(str)
+            For Each Type In Types
+                If Line.Trim.ToLower.EndsWith(Type) Then
+                    lst.Add(Line.Trim)
+                    Exit For
+                End If
+            Next   
+        Next
+        Return lst.ToArray
+    End Function
 End Module
