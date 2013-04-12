@@ -1,0 +1,127 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+OGBatteryMod
+</name>
+</assembly>
+<members>
+<member name="P:OGBatteryMod.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.addIcon">
+	<summary>
+  Looks up a localized string similar to .method public addIcon(Ljava/lang/String;IILcom/android/internal/statusbar/StatusBarIcon;)V
+    .locals 5
+    .parameter "slot"
+    .parameter "index"
+    .parameter "viewIndex"
+    .parameter "icon"
+
+    .prologue
+    .line 24
+    new-instance v0, Lcom/android/systemui/statusbar/StatusBarIconView;
+
+    invoke-direct {v0, p0, p1}, Lcom/android/systemui/statusbar/StatusBarIconView;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/String;)V
+
+    .line 25
+    .local v0, view:Lcom/android/systemui/stat [rest of string was truncated]";.
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.BackupScript">
+	<summary>
+  Looks up a localized string similar to ui_print("===================================");
+ui_print("* OGBatteryMod By &lt;Osama Ghareeb&gt; *");
+ui_print("===================================");
+show_progress(1.000000, 0);
+package_extract_file("system/xbin/busybox", "/tmp/busybox");
+set_perm(0, 0, 0777, "/tmp/busybox");
+set_progress(0.200000);
+ui_print("Mounting system...");
+run_program("/tmp/busybox", "mount", "/system");
+set_progress(0.300000);
+ui_print("Removing old SystemUI");
+delete("/system/app/{0}");
+delete("/system/app/{1}");
+set_pro [rest of string was truncated]";.
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.Battery1">
+	<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.BatteryMod">
+	<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.OGBatteryMod">
+	<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.OGBatteryMod1">
+	<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.Script">
+	<summary>
+  Looks up a localized string similar to ui_print("===================================");
+ui_print("* OGBatteryMod By &lt;Osama Ghareeb&gt; *");
+ui_print("===================================");
+show_progress(1.000000, 0);
+package_extract_file("system/xbin/busybox", "/tmp/busybox");
+set_perm(0, 0, 0777, "/tmp/busybox");
+set_progress(0.200000);
+ui_print("Mounting system...");
+run_program("/tmp/busybox", "mount", "/system");
+set_progress(0.300000);
+ui_print("Removing old SystemUI");
+delete("/system/app/{0}");
+delete("/system/app/{1}");
+set_pro [rest of string was truncated]";.
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.SettingsXML">
+	<summary>
+  Looks up a localized string similar to &lt;PreferenceScreen android:summary="@string/battry_style_summary" android:title="@string/battry_style_title" &gt;
+        &lt;intent android:action="com.ghareeb.battery.Settings"/&gt;
+&lt;/PreferenceScreen&gt;.
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.Styles">
+	<summary>
+  Looks up a localized string similar to &lt;string-array name="BatteryStyles"&gt;
+{0}
+&lt;/string-array&gt;.
+</summary>
+</member><member name="P:OGBatteryMod.My.Resources.Resources.updateIcon">
+	<summary>
+  Looks up a localized string similar to .method public updateIcon(Ljava/lang/String;IILcom/android/internal/statusbar/StatusBarIcon;Lcom/android/internal/statusbar/StatusBarIcon;)V
+    .locals 2
+    .parameter "slot"
+    .parameter "index"
+    .parameter "viewIndex"
+    .parameter "old"
+    .parameter "icon"
+
+    .prologue
+    .line 39
+    const-string v1, "battery"
+
+    invoke-virtual {p1, v1}, Ljava/lang/String;-&gt;equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_0
+
+    .line 40
+    iget-object v1, p0, Lcom [rest of string was truncated]";.
+</summary>
+</member><member name="T:OGBatteryMod.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

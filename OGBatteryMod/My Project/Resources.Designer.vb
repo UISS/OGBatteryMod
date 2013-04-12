@@ -61,21 +61,56 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
+        '''  Looks up a localized string similar to .method public addIcon(Ljava/lang/String;IILcom/android/internal/statusbar/StatusBarIcon;)V
+        '''    .locals 5
+        '''    .parameter &quot;slot&quot;
+        '''    .parameter &quot;index&quot;
+        '''    .parameter &quot;viewIndex&quot;
+        '''    .parameter &quot;icon&quot;
+        '''
+        '''    .prologue
+        '''    .line 24
+        '''    new-instance v0, Lcom/android/systemui/statusbar/StatusBarIconView;
+        '''
+        '''    invoke-direct {v0, p0, p1}, Lcom/android/systemui/statusbar/StatusBarIconView;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/String;)V
+        '''
+        '''    .line 25
+        '''    .local v0, view:Lcom/android/systemui/stat [rest of string was truncated]&quot;;.
         '''</summary>
-        Friend ReadOnly Property Battery1() As Byte()
+        Friend ReadOnly Property addIcon() As String
             Get
-                Dim obj As Object = ResourceManager.GetObject("Battery1", resourceCulture)
-                Return CType(obj,Byte())
+                Return ResourceManager.GetString("addIcon", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to ui_print(&quot;===================================&quot;);
+        '''ui_print(&quot;* OGBatteryMod By &lt;Osama Ghareeb&gt; *&quot;);
+        '''ui_print(&quot;===================================&quot;);
+        '''show_progress(1.000000, 0);
+        '''package_extract_file(&quot;system/xbin/busybox&quot;, &quot;/tmp/busybox&quot;);
+        '''set_perm(0, 0, 0777, &quot;/tmp/busybox&quot;);
+        '''set_progress(0.200000);
+        '''ui_print(&quot;Mounting system...&quot;);
+        '''run_program(&quot;/tmp/busybox&quot;, &quot;mount&quot;, &quot;/system&quot;);
+        '''set_progress(0.300000);
+        '''ui_print(&quot;Removing old SystemUI&quot;);
+        '''delete(&quot;/system/app/{0}&quot;);
+        '''delete(&quot;/system/app/{1}&quot;);
+        '''set_pro [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property BackupScript() As String
+            Get
+                Return ResourceManager.GetString("BackupScript", resourceCulture)
             End Get
         End Property
         
         '''<summary>
         '''  Looks up a localized resource of type System.Byte[].
         '''</summary>
-        Friend ReadOnly Property Battery2() As Byte()
+        Friend ReadOnly Property Battery1() As Byte()
             Get
-                Dim obj As Object = ResourceManager.GetObject("Battery2", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Battery1", resourceCulture)
                 Return CType(obj,Byte())
             End Get
         End Property
@@ -91,23 +126,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &lt;item type=&quot;id&quot; name=&quot;OG_Battery_LL1&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_LL2&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_Name&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_CBox&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_Icon1&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_Icon2&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_Icon3&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_Icon4&quot;&gt;false&lt;/item&gt;
-        '''    &lt;item type=&quot;id&quot; name=&quot;OG_Battery_Icon5&quot;&gt;false&lt;/item&gt;.
-        '''</summary>
-        Friend ReadOnly Property IDs() As String
-            Get
-                Return ResourceManager.GetString("IDs", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized resource of type System.Byte[].
         '''</summary>
         Friend ReadOnly Property OGBatteryMod() As Byte()
@@ -118,7 +136,41 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &lt;com.ghareeb.BatteryMod.BatteryList android:entries=&quot;@array/BatteryStyles&quot; android:title=&quot;@string/battry_style_title&quot; android:key=&quot;batterystyle&quot; android:summary=&quot;@string/battry_style_summary&quot; android:defaultValue=&quot;Default&quot; android:entryValues=&quot;@array/BatteryStyles&quot; /&gt;.
+        '''  Looks up a localized resource of type System.Byte[].
+        '''</summary>
+        Friend ReadOnly Property OGBatteryMod1() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("OGBatteryMod1", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to ui_print(&quot;===================================&quot;);
+        '''ui_print(&quot;* OGBatteryMod By &lt;Osama Ghareeb&gt; *&quot;);
+        '''ui_print(&quot;===================================&quot;);
+        '''show_progress(1.000000, 0);
+        '''package_extract_file(&quot;system/xbin/busybox&quot;, &quot;/tmp/busybox&quot;);
+        '''set_perm(0, 0, 0777, &quot;/tmp/busybox&quot;);
+        '''set_progress(0.200000);
+        '''ui_print(&quot;Mounting system...&quot;);
+        '''run_program(&quot;/tmp/busybox&quot;, &quot;mount&quot;, &quot;/system&quot;);
+        '''set_progress(0.300000);
+        '''ui_print(&quot;Removing old SystemUI&quot;);
+        '''delete(&quot;/system/app/{0}&quot;);
+        '''delete(&quot;/system/app/{1}&quot;);
+        '''set_pro [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property Script() As String
+            Get
+                Return ResourceManager.GetString("Script", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;PreferenceScreen android:summary=&quot;@string/battry_style_summary&quot; android:title=&quot;@string/battry_style_title&quot; &gt;
+        '''        &lt;intent android:action=&quot;com.ghareeb.battery.Settings&quot;/&gt;
+        '''&lt;/PreferenceScreen&gt;.
         '''</summary>
         Friend ReadOnly Property SettingsXML() As String
             Get
@@ -128,26 +180,40 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;string-array name=&quot;BatteryStyles&quot;&gt;
-        '''        &lt;item&gt;Default&lt;/item&gt;
-        '''        &lt;item&gt;Aeon&lt;/item&gt;
-        '''        &lt;item&gt;Android&lt;/item&gt;
-        '''        &lt;item&gt;Broken Circle&lt;/item&gt;
-        '''        &lt;item&gt;Bubble&lt;/item&gt;
-        '''        &lt;item&gt;C&lt;/item&gt;
-        '''        &lt;item&gt;Chrysis&lt;/item&gt;
-        '''        &lt;item&gt;Circle&lt;/item&gt;
-        '''        &lt;item&gt;Froyo&lt;/item&gt;
-        '''        &lt;item&gt;Grey Tiny Circle&lt;/item&gt;
-        '''        &lt;item&gt;ICS Sphere&lt;/item&gt;
-        '''        &lt;item&gt;iPhone&lt;/item&gt;
-        '''        &lt;item&gt;Numas&lt;/item&gt;
-        '''        &lt;item&gt;Sense&lt;/item&gt;
-        '''        &lt;item&gt;Vertical ICS Blue&lt;/item&gt;
-        '''    &lt;/string-ar [rest of string was truncated]&quot;;.
+        '''{0}
+        '''&lt;/string-array&gt;.
         '''</summary>
         Friend ReadOnly Property Styles() As String
             Get
                 Return ResourceManager.GetString("Styles", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to .method public updateIcon(Ljava/lang/String;IILcom/android/internal/statusbar/StatusBarIcon;Lcom/android/internal/statusbar/StatusBarIcon;)V
+        '''    .locals 2
+        '''    .parameter &quot;slot&quot;
+        '''    .parameter &quot;index&quot;
+        '''    .parameter &quot;viewIndex&quot;
+        '''    .parameter &quot;old&quot;
+        '''    .parameter &quot;icon&quot;
+        '''
+        '''    .prologue
+        '''    .line 39
+        '''    const-string v1, &quot;battery&quot;
+        '''
+        '''    invoke-virtual {p1, v1}, Ljava/lang/String;-&gt;equals(Ljava/lang/Object;)Z
+        '''
+        '''    move-result v1
+        '''
+        '''    if-nez v1, :cond_0
+        '''
+        '''    .line 40
+        '''    iget-object v1, p0, Lcom [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property updateIcon() As String
+            Get
+                Return ResourceManager.GetString("updateIcon", resourceCulture)
             End Get
         End Property
     End Module
