@@ -117,50 +117,212 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="addIcon" xml:space="preserve">
+    <value>.method public addIcon(Ljava/lang/String;IILcom/android/internal/statusbar/StatusBarIcon;)V
+    .locals 5
+    .parameter "slot"
+    .parameter "index"
+    .parameter "viewIndex"
+    .parameter "icon"
+
+    .prologue
+    .line 24
+    new-instance v0, Lcom/android/systemui/statusbar/StatusBarIconView;
+
+    invoke-direct {v0, p0, p1}, Lcom/android/systemui/statusbar/StatusBarIconView;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/String;)V
+
+    .line 25
+    .local v0, view:Lcom/android/systemui/statusbar/StatusBarIconView;
+    const-string v1, "battery"
+
+    invoke-virtual {p1, v1}, Ljava/lang/String;-&gt;equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_1
+
+    .line 26
+    iget-object v1, p0, Lcom/android/systemui/statusbar/StatusBarService;-&gt;bController:Lcom/ghareeb/BatteryMod/BatteryController;
+
+    if-nez v1, :cond_0
+
+    .line 27
+    new-instance v1, Lcom/ghareeb/BatteryMod/BatteryController;
+
+    invoke-direct {v1, p0}, Lcom/ghareeb/BatteryMod/BatteryController;-&gt;&lt;init&gt;(Landroid/content/Context;)V
+
+    iput-object v1, p0, Lcom/android/systemui/statusbar/StatusBarService;-&gt;bController:Lcom/ghareeb/BatteryMod/BatteryController;
+
+    .line 29
+    :cond_0
+    iget-object v1, p0, Lcom/android/systemui/statusbar/StatusBarService;-&gt;bController:Lcom/ghareeb/BatteryMod/BatteryController;
+
+    invoke-virtual {v1, v0}, Lcom/ghareeb/BatteryMod/BatteryController;-&gt;addIconView(Landroid/widget/ImageView;)V
+
+    .line 33
+    :goto_0
+    iget-object v1, p0, Lcom/android/systemui/statusbar/StatusBarService;-&gt;mStatusIcons:Landroid/widget/LinearLayout;
+
+    new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
+
+    .line 34
+    iget v3, p0, Lcom/android/systemui/statusbar/StatusBarService;-&gt;mIconSize:I
+
+    iget v4, p0, Lcom/android/systemui/statusbar/StatusBarService;-&gt;mIconSize:I
+
+    invoke-direct {v2, v3, v4}, Landroid/widget/LinearLayout$LayoutParams;-&gt;&lt;init&gt;(II)V
+
+    .line 33
+    invoke-virtual {v1, v0, p3, v2}, Landroid/widget/LinearLayout;-&gt;addView(Landroid/view/View;ILandroid/view/ViewGroup$LayoutParams;)V
+
+    .line 35
+    return-void
+
+    .line 31
+    :cond_1
+    invoke-virtual {v0, p4}, Lcom/android/systemui/statusbar/StatusBarIconView;-&gt;set(Lcom/android/internal/statusbar/StatusBarIcon;)Z
+
+    goto :goto_0
+.end method</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Battery1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Battery1.rar;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Battery2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Battery2.rar;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="BatteryMod" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BatteryMod.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="IDs" xml:space="preserve">
-    <value>&lt;item type="id" name="OG_Battery_LL1"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_LL2"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_Name"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_CBox"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_Icon1"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_Icon2"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_Icon3"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_Icon4"&gt;false&lt;/item&gt;
-    &lt;item type="id" name="OG_Battery_Icon5"&gt;false&lt;/item&gt;</value>
   </data>
   <data name="OGBatteryMod" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OGBatteryMod.apk;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="OGBatteryMod1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OGBatteryMod1.apk;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="SettingsXML" xml:space="preserve">
-    <value>&lt;com.ghareeb.BatteryMod.BatteryList android:entries="@array/BatteryStyles" android:title="@string/battry_style_title" android:key="batterystyle" android:summary="@string/battry_style_summary" android:defaultValue="Default" android:entryValues="@array/BatteryStyles" /&gt;</value>
+    <value>&lt;PreferenceScreen android:summary="@string/battry_style_summary" android:title="@string/battry_style_title" &gt;
+        &lt;intent android:action="com.ghareeb.battery.Settings"/&gt;
+&lt;/PreferenceScreen&gt;</value>
   </data>
   <data name="Styles" xml:space="preserve">
     <value>&lt;string-array name="BatteryStyles"&gt;
-        &lt;item&gt;Default&lt;/item&gt;
-        &lt;item&gt;Aeon&lt;/item&gt;
-        &lt;item&gt;Android&lt;/item&gt;
-        &lt;item&gt;Broken Circle&lt;/item&gt;
-        &lt;item&gt;Bubble&lt;/item&gt;
-        &lt;item&gt;C&lt;/item&gt;
-        &lt;item&gt;Chrysis&lt;/item&gt;
-        &lt;item&gt;Circle&lt;/item&gt;
-        &lt;item&gt;Froyo&lt;/item&gt;
-        &lt;item&gt;Grey Tiny Circle&lt;/item&gt;
-        &lt;item&gt;ICS Sphere&lt;/item&gt;
-        &lt;item&gt;iPhone&lt;/item&gt;
-        &lt;item&gt;Numas&lt;/item&gt;
-        &lt;item&gt;Sense&lt;/item&gt;
-        &lt;item&gt;Vertical ICS Blue&lt;/item&gt;
-    &lt;/string-array&gt;</value>
+{0}
+&lt;/string-array&gt;</value>
+  </data>
+  <data name="updateIcon" xml:space="preserve">
+    <value>.method public updateIcon(Ljava/lang/String;IILcom/android/internal/statusbar/StatusBarIcon;Lcom/android/internal/statusbar/StatusBarIcon;)V
+    .locals 2
+    .parameter "slot"
+    .parameter "index"
+    .parameter "viewIndex"
+    .parameter "old"
+    .parameter "icon"
+
+    .prologue
+    .line 39
+    const-string v1, "battery"
+
+    invoke-virtual {p1, v1}, Ljava/lang/String;-&gt;equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_0
+
+    .line 40
+    iget-object v1, p0, Lcom/android/systemui/statusbar/StatusBarService;-&gt;mStatusIcons:Landroid/widget/LinearLayout;
+
+    .line 41
+    invoke-virtual {v1, p3}, Landroid/widget/LinearLayout;-&gt;getChildAt(I)Landroid/view/View;
+
+    move-result-object v0
+
+    .line 40
+    check-cast v0, Lcom/android/systemui/statusbar/StatusBarIconView;
+
+    .line 42
+    .local v0, view:Lcom/android/systemui/statusbar/StatusBarIconView;
+    invoke-virtual {v0, p5}, Lcom/android/systemui/statusbar/StatusBarIconView;-&gt;set(Lcom/android/internal/statusbar/StatusBarIcon;)Z
+
+    .line 44
+    .end local v0           #view:Lcom/android/systemui/statusbar/StatusBarIconView;
+    :cond_0
+    return-void
+.end method</value>
+  </data>
+  <data name="Script" xml:space="preserve">
+    <value>ui_print("===================================");
+ui_print("* OGBatteryMod By &lt;Osama Ghareeb&gt; *");
+ui_print("===================================");
+show_progress(1.000000, 0);
+package_extract_file("system/xbin/busybox", "/tmp/busybox");
+set_perm(0, 0, 0777, "/tmp/busybox");
+set_progress(0.200000);
+ui_print("Mounting system...");
+run_program("/tmp/busybox", "mount", "/system");
+set_progress(0.300000);
+ui_print("Removing old SystemUI");
+delete("/system/app/{0}");
+delete("/system/app/{1}");
+set_progress(0.400000);
+{2}
+set_progress(0.500000);
+ui_print("Removing old OGBatteryMod");
+delete("/system/app/OGBatteryMod.apk");
+set_progress(0.600000);
+ui_print("Installing OGBatteryMod...");
+package_extract_dir("system/app", "/system/app");
+set_progress(0.700000);
+ui_print("Setting Permission...");
+set_perm(0, 0, 0644, "/system/app/{0}");
+{3}
+set_perm(0, 0, 0644, "/system/app/OGBatteryMod.apk");
+set_progress(0.800000);
+ui_print("Unmounting system...");
+run_program("/tmp/busybox", "umount", "/system");
+delete("/tmp/busybox");
+set_progress(1.000000);
+show_progress(1.000000, 0);
+ui_print("===================================");
+ui_print("*         Install complete        *");
+ui_print("* OGBatteryMod By &lt;Osama Ghareeb&gt; *");
+ui_print("*            Enjoy ^__^           *");
+ui_print("===================================");</value>
+  </data>
+  <data name="BackupScript" xml:space="preserve">
+    <value>ui_print("===================================");
+ui_print("* OGBatteryMod By &lt;Osama Ghareeb&gt; *");
+ui_print("===================================");
+show_progress(1.000000, 0);
+package_extract_file("system/xbin/busybox", "/tmp/busybox");
+set_perm(0, 0, 0777, "/tmp/busybox");
+set_progress(0.200000);
+ui_print("Mounting system...");
+run_program("/tmp/busybox", "mount", "/system");
+set_progress(0.300000);
+ui_print("Removing old SystemUI");
+delete("/system/app/{0}");
+delete("/system/app/{1}");
+set_progress(0.400000);
+{2}
+set_progress(0.500000);
+ui_print("Removing OGBatteryMod");
+delete("/system/app/OGBatteryMod.apk");
+set_progress(0.600000);
+ui_print("Restoring...");
+package_extract_dir("system/app", "/system/app");
+set_progress(0.700000);
+ui_print("Setting Permission...");
+set_perm(0, 0, 0644, "/system/app/{0}");
+{3}
+set_progress(0.800000);
+ui_print("Unmounting system...");
+run_program("/tmp/busybox", "umount", "/system");
+delete("/tmp/busybox");
+set_progress(1.000000);
+show_progress(1.000000, 0);
+ui_print("===================================");
+ui_print("*          Restore complete        *");
+ui_print("* OGBatteryMod By &lt;Osama Ghareeb&gt; *");
+ui_print("*            Enjoy ^__^           *");
+ui_print("===================================");</value>
   </data>
 </root>

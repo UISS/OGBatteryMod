@@ -71,17 +71,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animate.vb" />
+    <Compile Include="ApplicationEvents.vb" />
     <Compile Include="CMD.vb" />
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="CStyle.Designer.vb">
+      <DependentUpon>CStyle.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form1.vb">
+    <Compile Include="CStyle.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrmFiles.Designer.vb">
+      <DependentUpon>FrmFiles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmFiles.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.vb">
+      <DependentUpon>FrmMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmChoose.Designer.vb">
       <DependentUpon>FrmChoose.vb</DependentUpon>
     </Compile>
     <Compile Include="FrmChoose.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmNewStyle.Designer.vb">
+      <DependentUpon>FrmNewStyle.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmNewStyle.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmStyles.Designer.vb">
+      <DependentUpon>FrmStyles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmStyles.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -102,11 +127,23 @@
     <Compile Include="Shared.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="CStyle.resx">
+      <DependentUpon>CStyle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFiles.resx">
+      <DependentUpon>FrmFiles.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmChoose.resx">
       <DependentUpon>FrmChoose.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmNewStyle.resx">
+      <DependentUpon>FrmNewStyle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmStyles.resx">
+      <DependentUpon>FrmStyles.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -127,9 +164,9 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="Resources\Battery1.rar" />
-    <None Include="Resources\Battery2.rar" />
     <None Include="Resources\BatteryMod.zip" />
     <None Include="Resources\OGBatteryMod.apk" />
+    <None Include="Resources\OGBatteryMod1.apk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
