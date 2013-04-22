@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string-array name="BatteryStyles">
+        <item>Default</item>
+        <item>Aeon</item>
+        <item>Android</item>
+        <item>Broken Circle</item>
+        <item>Bubble</item>
+        <item>C</item>
+        <item>Chrysis</item>
+        <item>Circle</item>
+        <item>Froyo</item>
+        <item>Grey Tiny Circle</item>
+        <item>ICS Sphere</item>
+        <item>iPhone</item>
+        <item>Numas</item>
+        <item>Sense</item>
+        <item>Vertical ICS Blue</item>
+    </string-array>
+</resources>

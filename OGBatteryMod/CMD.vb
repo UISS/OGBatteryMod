@@ -30,9 +30,7 @@
                     Result += Chr(Buffer(0))
                 End If
             End If
-
             If WriteLog Then Log += Chr(Buffer(0))
-
             IsWriting = False
         Loop
     End Sub
@@ -44,11 +42,6 @@
             IsWriting = True
             If WriteResult Then
                 Result += Chr(Buffer(0))
-            Else
-                If Chr(Buffer(0)) = "\" Then
-                    WriteResult = True
-                    Result += Chr(Buffer(0))
-                End If
             End If
             If WriteLog Then Log += Chr(Buffer(0))
             WritengErr = False
@@ -78,6 +71,7 @@
         ReadThread.Start()
 
     End Sub
+
     Public Sub StopCMD()
         If CMD.HasExited = False Then
             ReadThread.Abort()
@@ -85,17 +79,13 @@
             CMD.Kill()
         End If
     End Sub
+
     Public Sub ExecuteCommand(ByVal cmd As String)
         SaveLog()
-        If cmd = "adb devices" OrElse cmd.Contains("zipalign") Then
+        If cmd = "adb devices" Then
             WriteLog = False
         Else
             WriteLog = True
-        End If
-        If cmd.Contains("zipalign") Then
-            WriteResult = False
-        Else
-            WriteResult = True
         End If
         IsWriting = True
         BResult = Result
@@ -111,7 +101,34 @@
 
     Private Sub WaitForResault()
         Do While (Not Result.Contains(">") OrElse Not Result.Contains("\")) AndAlso Not Result.Contains("$") AndAlso Not Result.Contains("#")
+            Application.DoEvents()
             Threading.Thread.Sleep(50)
         Loop
+        SaveLog()
     End Sub
+
+    Public Function ExecuteCommand(ByVal command As String, ByRef B As Boolean)
+        Dim output As String = ""
+        Dim err As String = String.Empty
+        Dim psi As ProcessStartInfo = New ProcessStartInfo("cmd.exe", command)
+        psi.RedirectStandardOutput = True
+        psi.RedirectStandardError = True
+        psi.RedirectStandardInput = True
+        psi.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
+        psi.UseShellExecute = False
+        psi.CreateNoWindow = True
+        Dim cmd As System.Diagnostics.Process
+        cmd = System.Diagnostics.Process.Start(psi)
+        cmd.StandardInput.WriteLine(command)
+        cmd.StandardInput.WriteLine("exit")
+
+        cmd.WaitForExit()
+        Using myOutput As System.IO.StreamReader = cmd.StandardOutput
+            output = myOutput.ReadToEnd()
+        End Using
+        Using myError As System.IO.StreamReader = cmd.StandardError
+            err = myError.ReadToEnd()
+        End Using
+        Return output & vbNewLine & err
+    End Function
 End Class

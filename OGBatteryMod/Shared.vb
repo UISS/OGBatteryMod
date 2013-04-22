@@ -1,4 +1,41 @@
 ﻿Module SharedCode
+    Public Function MsgBox(ByVal S As String) As DialogResult
+        Dim Log As String = ""
+        Try
+            Log = My.Computer.FileSystem.ReadAllText("Log2.txt")
+        Catch ex As Exception
+        End Try
+        Dim R As DialogResult = MessageBox.Show(S)
+        Log = S  & "   :   " & R.ToString & vbNewLine & Log
+        My.Computer.FileSystem.WriteAllText("Log2.txt", Log, False)
+        Return R
+    End Function
+    Public Function MsgBox(ByVal S As String, ByVal buttons As MessageBoxButtons, ByVal icon As MessageBoxIcon) As DialogResult
+        Dim Log As String = ""
+        Try
+            Log = My.Computer.FileSystem.ReadAllText("Log2.txt")
+        Catch ex As Exception
+        End Try
+        Dim R As DialogResult = MessageBox.Show(S, "OG Battery Mod", buttons, icon)
+        Log = S & "   :   " & R.ToString & vbNewLine & Log
+        My.Computer.FileSystem.WriteAllText("Log2.txt", Log, False)
+        Return R
+    End Function
+    Public Sub SaveError(ByVal e As Exception)
+        MsgBox("An error occurred, please send Log.txt & Log2.txt to me" & vbNewLine & "XDA : OsamaGhareeb")
+        Dim Problem As String = "---------------------------------------------" & vbNewLine
+        Problem += e.Message & vbNewLine
+        Problem += e.StackTrace & vbNewLine
+        Problem += "---------------------------------------------" & vbNewLine
+        Dim Log As String = ""
+        Try
+            Log = My.Computer.FileSystem.ReadAllText("Log2.txt")
+        Catch ex As Exception
+        End Try
+        Log = Problem & vbNewLine & Log
+        My.Computer.FileSystem.WriteAllText("Log2.txt", Log, False)
+        End
+    End Sub
 
     Public Function JustAfter(ByVal Str As String, ByVal Seq As String, ByVal SeqEnd As String) As String
         Dim Orgi As String = Str
@@ -68,7 +105,7 @@
                     lst.Add(Line.Trim)
                     Exit For
                 End If
-            Next   
+            Next
         Next
         Return lst.ToArray
     End Function
